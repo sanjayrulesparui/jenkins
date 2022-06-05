@@ -1,0 +1,40 @@
+Jenkins overview:
+
+- Navigate to https://mule-jenkins.hologic.com/ and login using AD credentials to access server
+
+Home page:
+
+- Central portion of page displays list of existing builds, can be organized using tabs
+- List of items on left portion of screen includes jenkins build & configuration options, queued builds, and builds currently being executed
+
+Configuring new build for Mule project:
+
+1. Select 'New Item' in top-left corner of page
+	- Enter name for project
+	- Search for & select 'generic-pipeline' in 'copy from' input bar towards bottom of page
+	- click OK -> Jenkins will redirect to configuration page for newly created build
+2. Modify configuration page
+	- Change project description
+	- Modify pipeline script definition input parameters
+		- githubOrg: name of organization in which Mule project is stored in
+		- repoName: name of github repository that Mule project is stored in
+		- repoBranch: desired branch within repo to build project from
+		- repoPath: relative path within repository in which project is located
+			- Ex: apps/project1
+	- Click 'save' -> Jenkins will redirect to project page
+3. In top right portion of newly created project page, click 'enable project' button
+	- Jenkins will begin polling github for project changes, and initiate a build when detected
+	
+Execute Build:
+
+A build will initiate on detection of change within specified location within github. (The time interval
+for detection is set in the pipeline cron config.)
+Once a build begins a flashing dot is displayed next to the pipeline name. Users can also manually 
+initiate a build by selecting the 'build now' button on the pipeline page. 
+Once a build begins, the pipeline will initialize and run until reaching the dev environment.
+(The pom.xml for the project must be set to auto-deploy=true.)
+Human intervention is required to chose whether or not to deploy at that step of the build. 
+The build will continue to prompt through tst, uat, and production steps until the project lifecycle is complete.
+
+If a new build is intiated, any build that is running must be aborted before the new build will start. Only
+one build runs at any given time for this pipeline.
