@@ -25,11 +25,11 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 def bashPath = "/Users/sanjaykumarparui/AnypointStudio/studio-workspace/helloworld"
-                output = sh label: '', returnStdout: true, script: "{ set +x; } 2>/dev/null && cd ${bashPath} && mvn clean package deploy -P"
+                def output = sh label: '', returnStdout: true, script: "{ set +x; } 2>/dev/null && cd ${bashPath} && mvn clean package deploy -P"
         
             }
         }
     }
 }
 
-}
+}   
