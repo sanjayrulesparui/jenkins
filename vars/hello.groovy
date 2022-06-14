@@ -9,11 +9,21 @@ def call(body) {
 
 pipeline {
     agent any
+    
+    tools {
+            maven 'Maven 3.6.0'
+            // jdk 'JAVA_HOME'
+            git 'Default'
+        }
 
     stages {
         stage('Build') {
             steps {
+                
                 echo 'Building..'
+                def bashPath ="/Users/sanjaykumarparui/AnypointStudio/studio-workspace/helloworld"
+                sh "cd ${bashPath} && mvn clean package"
+                sh "cd /Users/sanjaykumarparui/AnypointStudio/studio-workspace/helloworld && mvn clean package"
             }
         }
         stage('Test') {
@@ -24,8 +34,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                def bashPath = "/Users/sanjaykumarparui/AnypointStudio/studio-workspace/helloworld"
-                def output = sh label: '', returnStdout: true, script: "{ set +x; } 2>/dev/null && cd ${bashPath} && mvn clean package deploy -P"
+                //def bashPath = "/Users/sanjaykumarparui/AnypointStudio/studio-workspace/helloworld"
+                
+               // sh "cd /Users/sanjaykumarparui/AnypointStudio/studio-workspace/helloworld && mvn clean package deploy -DmuleDeploy"
+                
         
             }
         }
@@ -33,3 +45,4 @@ pipeline {
 }
 
 }   
+
